@@ -1,5 +1,6 @@
 package com.n26.finance.monitoring.api.controller;
 
+import com.n26.finance.monitoring.api.model.configuration.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,13 +30,20 @@ public class StatisticControllerTest extends AbstractControllerTest {
 	/**
 	 *
 	 */
-	private String endpointPrefix = "/statistics";
+	@Autowired
+	public Properties properties;
+
+	/**
+	 *
+	 */
+	private String endpointPrefix;
 
 	/**
 	 *
 	 */
 	@Before
 	public void setup() {
+		endpointPrefix = properties.getStatisticsEndpoint();
 	}
 
 	/**

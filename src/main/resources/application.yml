@@ -1,0 +1,8 @@
+n26:
+  finance:
+    monitoring:
+      api:
+        endpoint:
+          statistics: '/statistics'
+          transactions: '/transactions'
+        threshold: 60

@@ -1,5 +1,6 @@
 package com.n26.finance.monitoring.api.controller;
 
+import com.n26.finance.monitoring.api.model.configuration.Properties;
 import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
 import com.n26.finance.monitoring.api.model.util.JsonUtil;
 import org.apache.commons.lang3.RandomUtils;
@@ -34,20 +35,27 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	/**
 	 *
 	 */
-	private String endpointPrefix = "/transactions";
+	@Autowired
+	public Properties properties;
+
+	/**
+	 *
+	 */
+	private String endpointPrefix;
 
 	/**
 	 *
 	 */
 	@Before
 	public void setup() {
+		endpointPrefix = properties.getTransactionsEndpoint();
 	}
 
 	/**
 	 *
 	 */
 	@Test
-	public void insertTransactionUpTo60Seconds() throws Exception {
+	public void insertTransactionUpToTheThreshold() throws Exception {
 		Instant timestamp = Instant.now();
 		Double amount = RandomUtils.nextDouble();
 
@@ -73,9 +81,9 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void doNotInsertTransactionOlderThan60Seconds() throws Exception {
+	public void doNotInsertTransactionOlderThanTheThreshold() throws Exception {
 		Instant timestamp = Instant.now();
-		timestamp = timestamp.minusSeconds(61);
+		timestamp = timestamp.minusSeconds(properties.getThreshold() + 1);
 
 		Double amount = RandomUtils.nextDouble();
 

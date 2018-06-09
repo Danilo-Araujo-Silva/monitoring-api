@@ -2,6 +2,7 @@ package com.n26.finance.monitoring.api.controller;
 
 import com.n26.finance.monitoring.api.model.bo.TransactionBO;
 import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,12 +20,13 @@ public class TransactionController {
 	/**
 	 *
 	 */
-	private TransactionBO transactionBO = new TransactionBO();
+	@Autowired
+	private TransactionBO transactionBO;
 
 	/**
 	 *
 	 */
-	@PostMapping("/transactions")
+	@PostMapping("${n26.finance.monitoring.api.endpoint.transactions}")
 	public ResponseEntity<Void> insertTransaction(@RequestBody(required = true) TransactionPOJO transactionPOJO) {
 		if (!transactionBO.isValidTimestamp(transactionPOJO.getTimestamp())) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

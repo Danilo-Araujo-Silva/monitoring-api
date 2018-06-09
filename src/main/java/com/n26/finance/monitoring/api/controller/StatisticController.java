@@ -2,6 +2,7 @@ package com.n26.finance.monitoring.api.controller;
 
 import com.n26.finance.monitoring.api.model.bo.StatisticBO;
 import com.n26.finance.monitoring.api.model.pojo.StatisticPOJO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,12 +19,13 @@ public class StatisticController {
 	/**
 	 *
 	 */
-	private StatisticBO statisticBO = new StatisticBO();
+	@Autowired
+	private StatisticBO statisticBO;
 
 	/**
 	 *
 	 */
-	@GetMapping("/statistics")
+	@GetMapping("${n26.finance.monitoring.api.endpoint.statistics}")
 	public ResponseEntity<StatisticPOJO> getStatistics() {
 		return new ResponseEntity<StatisticPOJO>(statisticBO.run(), HttpStatus.OK);
 	}
