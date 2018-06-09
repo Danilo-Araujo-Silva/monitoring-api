@@ -32,6 +32,28 @@ public class StatisticPOJO extends AbstractPOJO {
 
 	/**
 	 *
+	 * @param sum
+	 * @param avg
+	 * @param max
+	 * @param min
+	 * @param count
+	 */
+	public StatisticPOJO(Double sum, Double avg, Double max, Double min, Long count) {
+		this.sum = sum;
+		this.avg = avg;
+		this.max = max;
+		this.min = min;
+		this.count = count;
+	}
+
+	/**
+	 *
+	 */
+	public StatisticPOJO() {
+	}
+
+	/**
+	 *
 	 * @return
 	 */
 	public Double getSum() {
