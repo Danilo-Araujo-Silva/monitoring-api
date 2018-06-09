@@ -1,5 +1,8 @@
 package com.n26.finance.monitoring.api.controller;
 
+import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
+import com.n26.finance.monitoring.api.model.util.JsonUtil;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
+import java.time.Instant;
 
 /**
  *
@@ -42,13 +47,17 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	 *
 	 */
 	@Test
-	public void insertTransaction() throws Exception {
-		String input = "";
+	public void insertTransactionUpTo60Seconds() throws Exception {
+		Instant timestamp = Instant.now();
+		Double amount = RandomUtils.nextDouble();
+
+		TransactionPOJO transactionPOJO = new TransactionPOJO(timestamp.toEpochMilli(), amount);
+		String json = JsonUtil.toJson(transactionPOJO);
 
 		Integer status = mockMvc
 			.perform(
 				post(endpointPrefix)
-					.content(input)
+					.content(json)
 					.contentType(MediaType.APPLICATION_JSON)
 					.accept(MediaType.APPLICATION_JSON)
 			)
@@ -57,5 +66,33 @@ public class TransactionControllerTest extends AbstractControllerTest {
 			.getStatus();
 
 		assert status.equals(HttpStatus.CREATED.value());
+	}
+
+	/**
+	 *
+	 * @throws Exception
+	 */
+	@Test
+	public void doNotInsertTransactionOlderThan60Seconds() throws Exception {
+		Instant timestamp = Instant.now();
+		timestamp = timestamp.minusSeconds(61);
+
+		Double amount = RandomUtils.nextDouble();
+
+		TransactionPOJO transactionPOJO = new TransactionPOJO(timestamp.toEpochMilli(), amount);
+		String json = JsonUtil.toJson(transactionPOJO);
+
+		Integer status = mockMvc
+			.perform(
+				post(endpointPrefix)
+					.content(json)
+					.contentType(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_JSON)
+			)
+			.andReturn()
+			.getResponse()
+			.getStatus();
+
+		assert status.equals(HttpStatus.NO_CONTENT.value());
 	}
 }
