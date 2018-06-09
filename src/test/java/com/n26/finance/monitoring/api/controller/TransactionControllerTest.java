@@ -30,7 +30,7 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	/**
 	 *
 	 */
-	private String endpointPrefix = "/transaction";
+	private String endpointPrefix = "/transactions";
 
 	/**
 	 *

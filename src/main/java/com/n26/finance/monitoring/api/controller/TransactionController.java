@@ -16,7 +16,7 @@ public class TransactionController {
 	/**
 	 *
 	 */
-	@PostMapping("/transaction")
+	@PostMapping("/transactions")
 	public ResponseEntity<Void> insertTransaction() {
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}
