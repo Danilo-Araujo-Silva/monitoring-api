@@ -1,9 +1,10 @@
 package com.n26.finance.monitoring.api.controller;
 
 import com.n26.finance.monitoring.api.model.configuration.Properties;
+import com.n26.finance.monitoring.api.model.pojo.StatisticPOJO;
 import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
+import com.n26.finance.monitoring.api.model.repository.Repository;
 import com.n26.finance.monitoring.api.model.util.JsonUtil;
-import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +42,12 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	/**
 	 *
 	 */
+	@Autowired
+	private Repository repository;
+
+	/**
+	 *
+	 */
 	private String endpointPrefix;
 
 	/**
@@ -56,10 +63,7 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	 */
 	@Test
 	public void insertTransactionUpToTheThreshold() throws Exception {
-		Instant timestamp = Instant.now();
-		Double amount = RandomUtils.nextDouble();
-
-		TransactionPOJO transactionPOJO = new TransactionPOJO(timestamp.toEpochMilli(), amount);
+		TransactionPOJO transactionPOJO = TransactionPOJO.getUpToDateRandom();
 		String json = JsonUtil.toJson(transactionPOJO);
 
 		Integer status = mockMvc
@@ -86,9 +90,9 @@ public class TransactionControllerTest extends AbstractControllerTest {
 		Instant timestamp = Instant.now();
 		timestamp = timestamp.minusSeconds(properties.getLength() + 1);
 
-		Double amount = RandomUtils.nextDouble();
+		TransactionPOJO transactionPOJO = TransactionPOJO.getUpToDateRandom();
+		transactionPOJO.setTimestamp(timestamp.toEpochMilli());
 
-		TransactionPOJO transactionPOJO = new TransactionPOJO(timestamp.toEpochMilli(), amount);
 		String json = JsonUtil.toJson(transactionPOJO);
 
 		Integer status = mockMvc
@@ -103,5 +107,53 @@ public class TransactionControllerTest extends AbstractControllerTest {
 			.getStatus();
 
 		assert status.equals(HttpStatus.NO_CONTENT.value());
+	}
+
+	/**
+	 * Check if multiple insertions are consistent.
+	 */
+	@Test
+	public void checkIfMultipleInsertionsAreConsistent() throws Exception {
+		TransactionPOJO transactionPOJO1 = TransactionPOJO.getUpToDateRandom();
+		TransactionPOJO transactionPOJO2 = TransactionPOJO.getUpToDateRandom();
+
+		String json = JsonUtil.toJson(transactionPOJO1);
+		Integer status = mockMvc
+			.perform(
+				post(endpointPrefix)
+					.content(json)
+					.contentType(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_JSON)
+			)
+			.andReturn()
+			.getResponse()
+			.getStatus();
+
+		assert status.equals(HttpStatus.CREATED.value());
+
+		json = JsonUtil.toJson(transactionPOJO2);
+		status = mockMvc
+			.perform(
+				post(endpointPrefix)
+					.content(json)
+					.contentType(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_JSON)
+			)
+			.andReturn()
+			.getResponse()
+			.getStatus();
+
+		assert status.equals(HttpStatus.CREATED.value());
+
+		StatisticPOJO summary = repository.getCurrentSummary();
+
+		assert summary != null;
+		assert summary.getCount() >= 2;
+		assert summary.getAvg() > 0d;
+		assert summary.getMin() <= transactionPOJO1.getAmount();
+		assert summary.getMin() <= transactionPOJO2.getAmount();
+		assert summary.getMax() >= transactionPOJO1.getAmount();
+		assert summary.getMax() >= transactionPOJO2.getAmount();
+		assert summary.getSum() >= transactionPOJO1.getAmount() + transactionPOJO2.getAmount();
 	}
 }
