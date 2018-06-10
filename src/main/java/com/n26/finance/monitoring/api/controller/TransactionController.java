@@ -31,7 +31,7 @@ public class TransactionController {
 		if (!transactionBO.isValidTimestamp(transactionPOJO.getTimestamp())) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
-			transactionBO.handle(transactionPOJO);
+			transactionBO.insert(transactionPOJO);
 
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
 		}

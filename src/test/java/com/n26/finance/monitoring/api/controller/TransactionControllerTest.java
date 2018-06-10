@@ -83,7 +83,7 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	@Test
 	public void doNotInsertTransactionOlderThanTheThreshold() throws Exception {
 		Instant timestamp = Instant.now();
-		timestamp = timestamp.minusSeconds(properties.getThreshold() + 1);
+		timestamp = timestamp.minusSeconds(properties.getMillisThreshold() + 1);
 
 		Double amount = RandomUtils.nextDouble();
 

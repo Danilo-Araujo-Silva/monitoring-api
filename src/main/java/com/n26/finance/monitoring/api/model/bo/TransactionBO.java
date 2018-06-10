@@ -2,6 +2,7 @@ package com.n26.finance.monitoring.api.model.bo;
 
 import com.n26.finance.monitoring.api.model.configuration.Properties;
 import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
+import com.n26.finance.monitoring.api.model.repository.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,12 @@ public class TransactionBO extends AbstractBO {
 	/**
 	 *
 	 */
+	@Autowired
+	private Repository repository;
+
+	/**
+	 *
+	 */
 	public Boolean isValidTimestamp(Long timestamp) {
 		Long threshold = getThresholdInstantInMillis();
 		Long now = Instant.now().toEpochMilli();
@@ -34,7 +41,7 @@ public class TransactionBO extends AbstractBO {
 	 * @return
 	 */
 	public Instant getThresholdInstant() {
-		return Instant.now().minusSeconds(properties.getThreshold());
+		return Instant.now().minusSeconds(properties.getMillisThreshold());
 	}
 
 	/**
@@ -49,6 +56,7 @@ public class TransactionBO extends AbstractBO {
 	 *
 	 * @param transactionPOJO
 	 */
-	public void handle(TransactionPOJO transactionPOJO) {
+	public void insert(TransactionPOJO transactionPOJO) {
+		repository.add(transactionPOJO);
 	}
 }

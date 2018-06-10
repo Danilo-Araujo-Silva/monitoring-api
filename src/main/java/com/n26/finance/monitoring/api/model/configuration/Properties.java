@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 
 /**
  *
@@ -16,7 +18,23 @@ public class Properties {
 	 *
 	 */
 	@Value("${n26.finance.monitoring.api.threshold}")
-	private Integer threshold;
+	private Integer millisThreshold;
+
+	/**
+	 *
+	 */
+	private Integer secondsThreshold;
+
+	/**
+	 *
+	 */
+	@Value("${n26.finance.monitoring.api.breathe}")
+	private Integer millisBreathe;
+
+	/**
+	 *
+	 */
+	private Integer secondsBreathe;
 
 	/**
 	 *
@@ -36,12 +54,42 @@ public class Properties {
 	@Autowired
 	private Environment environment;
 
+	@PostConstruct
+	private void initialize() {
+		secondsThreshold = (int) Math.floor(millisThreshold / 1000);
+		secondsBreathe = (int) Math.floor(millisBreathe / 1000);
+	}
+
 	/**
 	 *
 	 * @return
 	 */
-	public Integer getThreshold() {
-		return threshold;
+	public Integer getMillisThreshold() {
+		return millisThreshold;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Integer getSecondsThreshold() {
+		return secondsThreshold;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Integer getMillisBreathe() {
+		return millisBreathe;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public Integer getSecondsBreathe() {
+		return secondsBreathe;
 	}
 
 	/**
