@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 /**
  *	A class with useful methods to operate JSONs.
@@ -21,7 +22,7 @@ public class JsonUtil {
 	 */
 	private JsonUtil() {
 		objectMapper = new ObjectMapper();
-//		objectMapper.setTimeZone(TimeZone.getDefault());
+		objectMapper.setTimeZone(TimeZone.getTimeZone("UTC"));
 //		objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
 //		objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
 //		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
