@@ -49,7 +49,7 @@ public class RepositoryTest extends AbstractTest {
 		repository.add(transactionPOJO1);
 		repository.add(transactionPOJO2);
 
-		for (Integer i = 0; i < 50; i++) {
+		for (Integer i = 0; i < 10; i++) {
 			TransactionPOJO transactionPOJO = TransactionPOJO.getUpToDateRandom();
 
 			logger.finest("LIST: " + JsonUtil.toJson(repository.getList()));
@@ -63,7 +63,7 @@ public class RepositoryTest extends AbstractTest {
 		StatisticPOJO summary = repository.getCurrentSummary();
 
 		assert summary != null;
-		assert summary.getCount() > 10;
+		assert summary.getCount() > 5;
 		assert summary.getAvg() > 0d;
 		assert summary.getMin() <= transactionPOJO1.getAmount();
 		assert summary.getMax() >= transactionPOJO2.getAmount();
