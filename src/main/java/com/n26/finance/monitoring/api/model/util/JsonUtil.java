@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 /**
- *
+ *	A class with useful methods to operate JSONs.
+ *	Created using thread-safe singleton approach.
  */
 public class JsonUtil {
 
@@ -42,6 +43,7 @@ public class JsonUtil {
 	}
 
 	/**
+	 *	Converts an object to a JSON string.
 	 *
 	 * @param target
 	 * @return
@@ -52,6 +54,7 @@ public class JsonUtil {
 	}
 
 	/**
+	 *	Convert a JSON string to an object.
 	 *
 	 * @param json
 	 * @param returningClass

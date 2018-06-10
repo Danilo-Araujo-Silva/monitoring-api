@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.logging.Logger;
 
 /**
- *
+ * The repository tests.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -35,6 +35,9 @@ public class RepositoryTest extends AbstractTest {
 	private Logger logger = Logger.getLogger(RepositoryTest.class.getCanonicalName());
 
 	/**
+	 * This test checks if the repository is working properly.
+	 * It gets the repository and inserts two information into it, after it creates a loop and randomly inserts new
+	 * 	transactions into it. In the end if checks if the statistical information is consistent.
 	 *
 	 * @throws JsonProcessingException
 	 */

@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * The statistics BO.
+ * Retrieve the latest statistics of the repository.
  */
 @Component
 public class StatisticBO extends AbstractBO {
@@ -18,6 +19,7 @@ public class StatisticBO extends AbstractBO {
 	private Repository repository;
 
 	/**
+	 *	Retrieve the latest statistics of the repository.
 	 *
 	 * @return
 	 */

@@ -1,32 +1,32 @@
 package com.n26.finance.monitoring.api.model.pojo;
 
 /**
- *
+ * POJO representing a statistic endpoint response.
  */
 public class StatisticPOJO extends AbstractPOJO {
 
 	/**
-	 *
+	 * Sum.
 	 */
 	private Double sum;
 
 	/**
-	 *
+	 * Average.
 	 */
 	private Double avg;
 
 	/**
-	 *
+	 * Maximum value.
 	 */
 	private Double max;
 
 	/**
-	 *
+	 * Minimum value.
 	 */
 	private Double min;
 
 	/**
-	 *
+	 * Quantity.
 	 */
 	private Long count;
 

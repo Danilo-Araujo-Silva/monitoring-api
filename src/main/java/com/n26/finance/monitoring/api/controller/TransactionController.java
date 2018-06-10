@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- *
+ * The transactions controller.
+ * Handle transactions operations.
  */
 @Controller("transactionController")
 @CrossOrigin(origins = "*")
@@ -24,7 +25,7 @@ public class TransactionController {
 	private TransactionBO transactionBO;
 
 	/**
-	 *
+	 *	Handle a transaction insertion.
 	 */
 	@PostMapping("${n26.finance.monitoring.api.endpoint.transactions}")
 	public ResponseEntity<Void> insertTransaction(@RequestBody(required = true) TransactionPOJO transactionPOJO) {

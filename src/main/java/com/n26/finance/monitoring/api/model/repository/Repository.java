@@ -12,7 +12,7 @@ import java.time.Instant;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- *
+ * An in memory repository to store transactions statistics information.
  */
 @Component
 public class Repository {
@@ -24,12 +24,12 @@ public class Repository {
 	private Properties properties;
 
 	/**
-	 *
+	 * An list with transaction data.
 	 */
 	private CopyOnWriteArrayList<StatisticPOJO> list;
 
 	/**
-	 *
+	 * The method that initialize the repository.
 	 */
 	@PostConstruct
 	private void initialize() {
@@ -45,6 +45,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Gets the repository list.
 	 *
 	 * @return
 	 */
@@ -53,6 +54,7 @@ public class Repository {
 	}
 
 	/**
+	 *	A method that create a default statistic POJO to be used.
 	 *
 	 * @return
 	 */
@@ -61,6 +63,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Remove the last element of the list.
 	 *
 	 * @return
 	 */
@@ -69,6 +72,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Add a new element to the list by positioning it according to a timestamp.
 	 *
 	 * @param timestamp
 	 */
@@ -81,6 +85,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Add a new transaction to the list, finding its correct place.
 	 *
 	 * @param transactionPOJO
 	 */
@@ -110,6 +115,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Add a new element at the beginning of the list.
 	 *
 	 * @return
 	 */
@@ -118,6 +124,7 @@ public class Repository {
 	}
 
 	/**
+	 *	Add a new statistic pojo at the beginning of the list.
 	 *
 	 * @param statisticPOJO
 	 * @return
@@ -129,9 +136,9 @@ public class Repository {
 	}
 
 	/**
-	 * Find the element position adding a breathe for it.
+	 * Find the position of an element receding it into a certain clearence.
 	 *
-	 * Note: considering that the timestamp does not exceed the limits of an integer.
+	 * Note: this method assumes that the timestamp value does not exceed the limits of an integer.
 	 *
 	 * @param timestamp
 	 * @return
@@ -141,6 +148,8 @@ public class Repository {
 	}
 
 	/**
+	 *	Get the most up-to-date statistical summary.
+	 *	Summarize the information of the present moment until the threshold.
 	 *
 	 * @return
 	 */
@@ -173,7 +182,8 @@ public class Repository {
 	}
 
 	/**
-	 *
+	 *	An automated task to maintain the list.
+	 *	It adds and removes elements from the list to each unit of time.
 	 */
 	@Scheduled(fixedRateString = "${n26.finance.monitoring.api.repository.unit}")
 	private void maintain() {

@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 /**
- *
+ * The statistics endpoint tests.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -47,7 +47,7 @@ public class StatisticControllerTest extends AbstractControllerTest {
 	}
 
 	/**
-	 *
+	 *	Verify that you can get the statical information correctly.
 	 */
 	@Test
 	public void getStatistics() throws Exception {

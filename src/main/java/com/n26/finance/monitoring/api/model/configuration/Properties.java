@@ -9,43 +9,43 @@ import javax.annotation.PostConstruct;
 
 
 /**
- *
+ *	A class used to store the main system properties.
  */
 @Component
 public class Properties {
 
 	/**
-	 *
+	 * The unit of time considered, for example, 1 second (1000 miliseconds).
 	 */
 	@Value("${n26.finance.monitoring.api.repository.unit}")
 	private Integer unit;
 
 	/**
-	 *
+	 * The length of the repository list, for example, 60 positions.
 	 */
 	@Value("${n26.finance.monitoring.api.repository.length}")
 	private Integer length;
 
 	/**
-	 *
+	 * The amount of empty spaces on the list, for example, 10 positions.
 	 */
 	@Value("${n26.finance.monitoring.api.repository.space}")
 	private Integer space;
 
 	/**
-	 *
+	 * The statistics endpoint url.
 	 */
 	@Value("${n26.finance.monitoring.api.endpoint.statistics}")
 	private String statisticsEndpoint;
 
 	/**
-	 *
+	 * The transactions enpoint url.
 	 */
 	@Value("${n26.finance.monitoring.api.endpoint.transactions}")
 	private String transactionsEndpoint;
 
 	/**
-	 *
+	 * Spring environment object.
 	 */
 	@Autowired
 	private Environment environment;

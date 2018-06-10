@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.time.Instant;
 
 /**
- *
+ * The transactions endpoint tests.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,7 +52,7 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	}
 
 	/**
-	 *
+	 * Test the insertion of a transaction up to the threshold.
 	 */
 	@Test
 	public void insertTransactionUpToTheThreshold() throws Exception {
@@ -77,6 +77,7 @@ public class TransactionControllerTest extends AbstractControllerTest {
 	}
 
 	/**
+	 *	Test not inserting a transaction older than the threshold.
 	 *
 	 * @throws Exception
 	 */

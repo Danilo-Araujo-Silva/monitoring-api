@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 
 /**
- *
+ * The transactions BO.
+ * Handle the incoming transactions, saving them or discarding them.
  */
 @Component
 public class TransactionBO extends AbstractBO {
@@ -27,7 +28,7 @@ public class TransactionBO extends AbstractBO {
 	private Repository repository;
 
 	/**
-	 *
+	 *	Check if the transaction timestamp is valid for insertion.
 	 */
 	public Boolean isValidTimestamp(Long timestamp) {
 		Long threshold = getThresholdInstantInMillis();
@@ -37,6 +38,7 @@ public class TransactionBO extends AbstractBO {
 	}
 
 	/**
+	 *	Gets the threshold that defines whether or not a transaction will be saved.
 	 *
 	 * @return
 	 */
@@ -53,6 +55,7 @@ public class TransactionBO extends AbstractBO {
 	}
 
 	/**
+	 *	Insert a transaction into the repository.
 	 *
 	 * @param transactionPOJO
 	 */

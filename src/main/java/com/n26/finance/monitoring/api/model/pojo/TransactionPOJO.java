@@ -5,17 +5,17 @@ import org.apache.commons.lang3.RandomUtils;
 import java.time.Instant;
 
 /**
- *
+ *	POJO class representing a transaction.
  */
 public class TransactionPOJO extends AbstractPOJO {
 
 	/**
-	 *
+	 *	The amount of money of the transaction.
 	 */
 	private Double amount;
 
 	/**
-	 *
+	 * Timestamp where the transaction was created.
 	 */
 	private Long timestamp;
 
@@ -68,6 +68,8 @@ public class TransactionPOJO extends AbstractPOJO {
 	}
 
 	/**
+	 *	A method to generate a transaction with a random amount of money and a up to date timestamp.
+	 *	Used usually in tests.
 	 *
 	 * @return
 	 */
