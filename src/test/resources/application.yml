@@ -1,6 +1,6 @@
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: trace
 spring:
   profiles:
     include: >

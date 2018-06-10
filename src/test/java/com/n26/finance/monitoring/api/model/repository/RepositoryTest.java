@@ -1,6 +1,7 @@
 package com.n26.finance.monitoring.api.model.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.n26.finance.monitoring.api.model.pojo.StatisticPOJO;
 import com.n26.finance.monitoring.api.model.pojo.TransactionPOJO;
 import com.n26.finance.monitoring.api.model.test.AbstractTest;
 import com.n26.finance.monitoring.api.model.util.JsonUtil;
@@ -39,15 +40,33 @@ public class RepositoryTest extends AbstractTest {
 	 */
 	@Test
 	public void run() throws JsonProcessingException, InterruptedException {
-		for (Integer i = 0; i < 100; i++) {
+		TransactionPOJO transactionPOJO1 = TransactionPOJO.getUpToDateRandom();
+		transactionPOJO1.setAmount(10d);
+
+		TransactionPOJO transactionPOJO2 = TransactionPOJO.getUpToDateRandom();
+		transactionPOJO2.setAmount(1_000d);
+
+		repository.add(transactionPOJO1);
+		repository.add(transactionPOJO2);
+
+		for (Integer i = 0; i < 50; i++) {
 			TransactionPOJO transactionPOJO = TransactionPOJO.getUpToDateRandom();
 
-			logger.fine("LIST: " + JsonUtil.toJson(repository.getList()));
-			logger.fine("SUMMARY: "+ JsonUtil.toJson(repository.getCurrentSummary()));
+			logger.finest("LIST: " + JsonUtil.toJson(repository.getList()));
+			logger.finest("SUMMARY: "+ JsonUtil.toJson(repository.getCurrentSummary()));
 
 			repository.add(transactionPOJO);
 
 			Thread.sleep(RandomUtils.nextLong(0, 500));
 		}
+
+		StatisticPOJO summary = repository.getCurrentSummary();
+
+		assert summary != null;
+		assert summary.getCount() > 10;
+		assert summary.getAvg() > 0d;
+		assert summary.getMin() <= transactionPOJO1.getAmount();
+		assert summary.getMax() >= transactionPOJO2.getAmount();
+		assert summary.getSum() > transactionPOJO1.getAmount() + transactionPOJO2.getAmount();
 	}
 }

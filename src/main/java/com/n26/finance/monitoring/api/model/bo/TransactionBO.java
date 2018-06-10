@@ -41,7 +41,7 @@ public class TransactionBO extends AbstractBO {
 	 * @return
 	 */
 	public Instant getThresholdInstant() {
-		return Instant.now().minusSeconds(properties.getMillisThreshold());
+		return Instant.now().minusSeconds(properties.getLength());
 	}
 
 	/**

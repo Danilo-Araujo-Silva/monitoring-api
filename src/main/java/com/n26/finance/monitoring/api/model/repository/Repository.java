@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.Instant;
-import java.util.LinkedList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
@@ -26,14 +26,16 @@ public class Repository {
 	/**
 	 *
 	 */
-	private LinkedList<StatisticPOJO> list = new LinkedList<>();
+	private CopyOnWriteArrayList<StatisticPOJO> list;
 
 	/**
 	 *
 	 */
 	@PostConstruct
 	private void initialize() {
-		Integer length = properties.getSecondsThreshold() + properties.getSecondsBreathe();
+		list = new CopyOnWriteArrayList<>();
+
+		Integer length = properties.getLength() + properties.getSpace();
 
 		for (Integer i = 0; i < length; i++) {
 			StatisticPOJO statisticPOJO = getDefaultPojo();
@@ -46,7 +48,7 @@ public class Repository {
 	 *
 	 * @return
 	 */
-	public synchronized LinkedList<StatisticPOJO> getList() {
+	public CopyOnWriteArrayList<StatisticPOJO> getList() {
 		return list;
 	}
 
@@ -63,7 +65,7 @@ public class Repository {
 	 * @return
 	 */
 	public StatisticPOJO removeLast() {
-		return getList().removeLast();
+		return getList().remove(getList().size() - 1);
 	}
 
 	/**
@@ -121,7 +123,7 @@ public class Repository {
 	 * @return
 	 */
 	public StatisticPOJO addFirst(StatisticPOJO statisticPOJO) {
-		getList().addFirst(statisticPOJO);
+		getList().add(0, statisticPOJO);
 
 		return statisticPOJO;
 	}
@@ -135,7 +137,7 @@ public class Repository {
 	 * @return
 	 */
 	public Integer getPosition(Long timestamp) {
-		return Math.max(0, (int) ((timestamp - Instant.now().toEpochMilli()) / 1000)) + properties.getSecondsBreathe();
+		return Math.max(0, (int) ((timestamp - Instant.now().toEpochMilli()) / properties.getUnit())) + properties.getSpace();
 	}
 
 	/**
@@ -145,8 +147,8 @@ public class Repository {
 	public StatisticPOJO getCurrentSummary() {
 		StatisticPOJO summary = getDefaultPojo();
 
-		Integer start = properties.getSecondsBreathe();
-		Integer end =  start + properties.getSecondsThreshold();
+		Integer start = properties.getSpace();
+		Integer end =  start + properties.getLength();
 
 		for (Integer i = start; i < end; i++) {
 			StatisticPOJO item = getList().get(i);
@@ -173,7 +175,7 @@ public class Repository {
 	/**
 	 *
 	 */
-	@Scheduled(fixedRateString = "${n26.finance.monitoring.api.maintain-interval}")
+	@Scheduled(fixedRateString = "${n26.finance.monitoring.api.repository.unit}")
 	private void maintain() {
 		addFirst();
 		removeLast();

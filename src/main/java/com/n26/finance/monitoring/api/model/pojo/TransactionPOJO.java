@@ -74,7 +74,7 @@ public class TransactionPOJO extends AbstractPOJO {
 	public static TransactionPOJO getUpToDateRandom() {
 		return new TransactionPOJO(
 			Instant.now().toEpochMilli(),
-			RandomUtils.nextDouble(0, 1000)
+			RandomUtils.nextDouble(0, 10_000)
 		);
 	}
 }

@@ -5,6 +5,7 @@ n26:
         endpoint:
           statistics: '/statistics'
           transactions: '/transactions'
-        threshold: 60000
-        breathe: 5000
-        maintain-interval: 1000
+        repository:
+          unit: 1000
+          space: 5
+          length: 60

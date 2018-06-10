@@ -17,24 +17,20 @@ public class Properties {
 	/**
 	 *
 	 */
-	@Value("${n26.finance.monitoring.api.threshold}")
-	private Integer millisThreshold;
+	@Value("${n26.finance.monitoring.api.repository.unit}")
+	private Integer unit;
 
 	/**
 	 *
 	 */
-	private Integer secondsThreshold;
+	@Value("${n26.finance.monitoring.api.repository.length}")
+	private Integer length;
 
 	/**
 	 *
 	 */
-	@Value("${n26.finance.monitoring.api.breathe}")
-	private Integer millisBreathe;
-
-	/**
-	 *
-	 */
-	private Integer secondsBreathe;
+	@Value("${n26.finance.monitoring.api.repository.space}")
+	private Integer space;
 
 	/**
 	 *
@@ -54,42 +50,35 @@ public class Properties {
 	@Autowired
 	private Environment environment;
 
+	/**
+	 *
+	 */
 	@PostConstruct
 	private void initialize() {
-		secondsThreshold = (int) Math.floor(millisThreshold / 1000);
-		secondsBreathe = (int) Math.floor(millisBreathe / 1000);
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public Integer getMillisThreshold() {
-		return millisThreshold;
+	public Integer getUnit() {
+		return unit;
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public Integer getSecondsThreshold() {
-		return secondsThreshold;
+	public Integer getLength() {
+		return length;
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public Integer getMillisBreathe() {
-		return millisBreathe;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public Integer getSecondsBreathe() {
-		return secondsBreathe;
+	public Integer getSpace() {
+		return space;
 	}
 
 	/**
