@@ -1,4 +1,4 @@
-# N26 Finance Monitoring API
+# Monitoring API
 
 This project is a RESTful API to monitor the entry of financial transactions in a certain period of time,
 for example, 60 seconds.
